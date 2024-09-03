@@ -15,13 +15,23 @@ app.post('/submit-form', async (req, res) => {
   try {
     const formData = new FormData(req.body);
     await formData.save();
-    res.json({ message: 'Form submitted successfully' });
+    res.json({formData });
   } catch (error) {
     console.error('Error saving form data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+app.get('/fetch-form',async (req,res)=>{
+  try {
+    const formData = await FormData.find();
+    res.json(formData);
+    // console.log(formData);
+  } catch (error) {
+    console.error('Error fetching form data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
